@@ -17,7 +17,7 @@ const createTables = async () => {
       name VARCHAR(100) NOT NULL,
       email VARCHAR(100) UNIQUE NOT NULL,
       password VARCHAR(255) NOT NULL,
-      isAdmin BOOLEAN DEFAULT FALSE
+      isadmin BOOLEAN
     );
   `;
   try {

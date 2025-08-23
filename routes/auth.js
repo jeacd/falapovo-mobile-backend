@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 router.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { name, email, password, isadmin = false } = req.body;
     console.log(req.body);
   
     if (!name || !email || !password) {
@@ -13,14 +13,14 @@ router.post('/register', async (req, res) => {
     }
   
     try {
-      const user = await createUser(name, email, password);
-      const response = { name: user.name, email: user.email, isAdmin: user.isAdmin, id: user.id };
+      const user = await createUser(name, email, password, isadmin);
+      const response = { name: user.name, email: user.email, isadmin: user.isadmin, id: user.id };
       res.status(201).json({ message: "Usuário registrado com sucesso", response });
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: err.message });
     }
-  });
+});
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;

@@ -1,11 +1,11 @@
 import bcrypt from 'bcryptjs';
 import pool from '../db.js';
 
-const createUser = async (name, email, password) => {
+const createUser = async (name, email, password, isadmin = false) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   
-  const query = 'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *';
-  const values = [name, email, hashedPassword];
+  const query = 'INSERT INTO users (name, email, password, isadmin) VALUES ($1, $2, $3, $4) RETURNING *';
+  const values = [name, email, hashedPassword, isadmin]; // Adicionando o valor de isadmin
 
   try {
     const result = await pool.query(query, values);
@@ -14,6 +14,7 @@ const createUser = async (name, email, password) => {
     throw new Error("Erro ao criar usuário: " + err.message);
   }
 };
+
 
 const authenticateUser = async (email, password) => {
   const query = 'SELECT * FROM users WHERE email = $1';
