@@ -5,7 +5,7 @@ const createUser = async (name, email, password, isadmin = false) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   
   const query = 'INSERT INTO users (name, email, password, isadmin) VALUES ($1, $2, $3, $4) RETURNING *';
-  const values = [name, email, hashedPassword, isadmin]; // Adicionando o valor de isadmin
+  const values = [name, email, hashedPassword, isadmin];
 
   try {
     const result = await pool.query(query, values);
